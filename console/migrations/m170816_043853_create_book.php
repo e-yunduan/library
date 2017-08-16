@@ -15,7 +15,7 @@ class m170816_043853_create_book extends Migration
     {
         $this->createTable($this->tableName, [
             'id' => $this->primaryKey(),
-            'title' => $this->string()->notNull()->unique()->comment('书名'),
+            'title' => $this->string()->notNull()->comment('书名'),
             'author' => $this->string()->notNull()->comment('作者'),
             'own_user_id' => $this->integer()->notNull()->defaultValue(0)->comment('此书拥有者 0代表公司'),
             'borrow_user_id' => $this->integer()->notNull()->defaultValue(0)->comment('此书借阅者'),
@@ -29,7 +29,7 @@ class m170816_043853_create_book extends Migration
         ], $this->getTableOptions());
 
         $this->addCommentOnTable($this->tableName, '书籍表');
-        $this->createIndex('fk_user_id', $this->tableName, 'own_user_id');
+        $this->createIndex('fk_title', $this->tableName, 'title');
 
     }
 
