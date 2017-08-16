@@ -29,7 +29,7 @@ class m170816_043853_create_book extends Migration
         ], $this->getTableOptions());
 
         $this->addCommentOnTable($this->tableName, '书籍表');
-        $this->createIndex('fk_title', $this->tableName, 'title');
+        $this->createIndex('idx_title', $this->tableName, 'title');
 
     }
 

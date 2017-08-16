@@ -22,8 +22,8 @@ class m170816_050148_create_user_metadata extends Migration
         ], $this->getTableOptions());
 
         $this->addCommentOnTable($this->tableName, '用户操作元数据表');
-        $this->createIndex('fk_user_id', $this->tableName, 'user_id');
-        $this->createIndex('fk_book_id', $this->tableName, 'book_id');
+        $this->createIndex('idx_user_id', $this->tableName, 'user_id');
+        $this->createIndex('idx_book_id', $this->tableName, 'book_id');
     }
 
     public function down()
