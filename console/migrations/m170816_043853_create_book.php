@@ -22,7 +22,8 @@ class m170816_043853_create_book extends Migration
             'image' => $this->string()->notNull()->comment('书籍封面'),
             'isbn' => $this->string(20)->notNull()->comment('ISBN 号'),
             'data' => $this->text()->notNull()->defaultValue(null)->comment('api json 数据'),
-
+            'view_count' => $this->integer()->defaultValue(0)->comment('浏览次数'),
+            'borrow_count' => $this->integer()->defaultValue(0)->comment('借阅次数'),
             'status' => $this->smallInteger()->notNull()->defaultValue(0)->comment('状态：0无人借阅 1已经被借阅'),
             'created_at' => $this->integer()->notNull()->defaultValue(null),
             'updated_at' => $this->integer()->notNull()->defaultValue(null),

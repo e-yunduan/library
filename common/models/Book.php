@@ -1,0 +1,87 @@
+<?php
+
+namespace common\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "{{%book}}".
+ *
+ * @property integer $id
+ * @property string $title
+ * @property string $author
+ * @property integer $own_user_id
+ * @property integer $borrow_user_id
+ * @property string $image
+ * @property string $isbn
+ * @property string $data
+ * @property integer $view_count
+ * @property integer $borrow_count
+ * @property integer $status
+ * @property integer $created_at
+ * @property integer $updated_at
+ */
+class Book extends \yii\db\ActiveRecord
+{
+    /**
+     * @var string 已经被借出
+     */
+    const STATUS_ACTIVE = 1;
+
+    /**
+     * @var string 可以借
+     */
+    const STATUS_INACTIVE = 0;
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%book}}';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['title', 'author', 'image', 'isbn'], 'required'],
+            [['own_user_id', 'borrow_user_id', 'view_count', 'borrow_count', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['data'], 'string'],
+            [['title', 'author', 'image'], 'string', 'max' => 255],
+            [['isbn'], 'string', 'max' => 20],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'title' => Yii::t('app', '书名'),
+            'author' => Yii::t('app', '作者'),
+            'own_user_id' => Yii::t('app', '此书拥有者 0代表公司'),
+            'borrow_user_id' => Yii::t('app', '此书借阅者'),
+            'image' => Yii::t('app', '书籍封面'),
+            'isbn' => Yii::t('app', 'ISBN 号'),
+            'data' => Yii::t('app', 'api json 数据'),
+            'view_count' => Yii::t('app', '浏览次数'),
+            'borrow_count' => Yii::t('app', '借阅次数'),
+            'status' => Yii::t('app', '状态：0无人借阅 1已经被借阅'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+        ];
+    }
+
+    public static function getStatuses()
+    {
+        return [
+            self::STATUS_ACTIVE => '已被借阅',
+            self::STATUS_INACTIVE => '借阅'
+        ];
+    }
+}

@@ -101,9 +101,9 @@ a.desc:after {
     border: none;
 }
 
-@media(max-width:767px) {
+@media (max-width: 767px) {
     .nav li > form > button.logout {
-        display:block;
+        display: block;
         text-align: left;
         width: 100%;
         padding: 10px 15px;
@@ -117,4 +117,32 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.book-image {
+    width: 100%;
+    min-height: 200px
+}
+
+.book-view-item ul li {
+    list-style-type: none;
+    padding: 5px 0;
+}
+
+.book-view-image {
+    width: 200px;
+}
+
+.book-view-action {
+    margin-left: 40px;
+    margin-top: 20px;
 }
