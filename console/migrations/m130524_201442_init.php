@@ -4,30 +4,38 @@ use yii\db\Migration;
 
 class m130524_201442_init extends Migration
 {
+
+    use \common\traits\MigrationTrait;
+
+    /**
+     * @var string 用户表
+     */
+    public $tableName = '{{%user}}';
+
     public function up()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
-
-        $this->createTable('{{%user}}', [
+        $this->createTable($this->tableName, [
             'id' => $this->primaryKey(),
-            'username' => $this->string()->notNull()->unique(),
+            'username' => $this->string()->notNull()->unique()->comment('用户名'),
+            'real_name' => $this->string()->notNull()->comment('真实姓名'),
             'auth_key' => $this->string(32)->notNull(),
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
-            'email' => $this->string()->notNull()->unique(),
+            'email' => $this->string()->notNull()->unique()->comment('邮箱'),
 
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
-        ], $tableOptions);
+            'status' => $this->smallInteger()->notNull()->defaultValue(10)->comment('状态 0停用 10正常 20管理员 30超级管理员'),
+            'created_at' => $this->integer()->notNull()->defaultValue(null),
+            'updated_at' => $this->integer()->notNull()->defaultValue(null),
+        ], $this->getTableOptions());
+
+        $this->addCommentOnTable($this->tableName, '用户表');
     }
 
+    /**
+     * @inheritdoc
+     */
     public function down()
     {
-        $this->dropTable('{{%user}}');
+        $this->dropTable($this->tableName);
     }
 }
