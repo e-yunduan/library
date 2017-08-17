@@ -63,6 +63,22 @@ class LoginForm extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function loginAdmin()
+    {
+        if ($this->validate()) {
+            if (User::isSuperAdmin($this->username)) {
+                return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            }
+            $this->addError('username', 'You don\'t have permission to login.');
+        } else {
+            $this->addError('password', Yii::t('app', 'Incorrect username or password.'));
+        }
+        return false;
+    }
+
+    /**
      * Finds user by [[username]]
      *
      * @return User|null

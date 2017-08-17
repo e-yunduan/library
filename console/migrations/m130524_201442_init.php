@@ -23,7 +23,8 @@ class m130524_201442_init extends Migration
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique()->comment('邮箱'),
 
-            'status' => $this->smallInteger()->notNull()->defaultValue(10)->comment('状态 0停用 10正常 20管理员 30超级管理员'),
+            'status' => $this->smallInteger()->notNull()->defaultValue(10)->comment('状态 0停用 10正常'),
+            'role' => $this->smallInteger()->notNull()->defaultValue(10)->comment('10普通用户 20管理员 30超级管理员'),
             'created_at' => $this->integer()->notNull()->defaultValue(null),
             'updated_at' => $this->integer()->notNull()->defaultValue(null),
         ], $this->getTableOptions());
