@@ -20,7 +20,7 @@ class m170816_043853_create_book extends Migration
             'own_user_id' => $this->integer()->notNull()->defaultValue(0)->comment('此书拥有者 0代表公司'),
             'borrow_user_id' => $this->integer()->notNull()->defaultValue(0)->comment('此书借阅者'),
             'image' => $this->string()->notNull()->comment('书籍封面'),
-            'isbn' => $this->string(20)->notNull()->comment('ISBN 号'),
+            'isbn' => $this->string(20)->unique()->notNull()->comment('ISBN 号'),
             'data' => $this->text()->notNull()->defaultValue(null)->comment('api json 数据'),
             'view_count' => $this->integer()->defaultValue(0)->comment('浏览次数'),
             'borrow_count' => $this->integer()->defaultValue(0)->comment('借阅次数'),
