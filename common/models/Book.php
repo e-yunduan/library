@@ -75,7 +75,7 @@ class Book extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'title' => Yii::t('app', '书名'),
             'author' => Yii::t('app', '作者'),
-            'own_user_id' => Yii::t('app', '此书拥有者 0代表公司'),
+            'own_user_id' => Yii::t('app', '此书拥有者'),
             'borrow_user_id' => Yii::t('app', '此书借阅者'),
             'image' => Yii::t('app', '书籍封面'),
             'isbn' => Yii::t('app', 'ISBN 号'),
