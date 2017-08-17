@@ -22,6 +22,9 @@ class BookController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Book::find(),
+            'pagination' => [
+                'pageSize' => 24,
+            ],
         ]);
 
         return $this->render('index', [
