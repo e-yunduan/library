@@ -19,7 +19,7 @@ use yii\helpers\Html;
             <div class="container text-ellipsis">
                 <p></p>
                 <p><b title="<?= $model->title ?>"><?= $model->title ?></b></p>
-                <p class="author" title="<?= $model->author ?>"><?= $model->author ?>sdsadasdasdasdasd</p>
+                <p class="author" title="<?= $model->author ?>"><?= $model->author ?></p>
                 <p>
                     <?php if ($model->status == Book::STATUS_INACTIVE) {
                         echo Html::tag('span', '可借阅', ['class' => 'label label-success']);
