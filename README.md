@@ -37,8 +37,11 @@ return [
 $ php yii migrate
 ```
 
-然后就可以配置 nginx 信息了。参考连接 [Configuring Web Servers](http://www.yiiframework.com/doc-2.0/guide-start-installation.html#configuring-web-servers)
+**关于后台登录问题**
 
+需要手动修改数据库 user 表的 `role` 字段值为30，才可以登录后台。
+
+然后就可以配置 nginx 信息了。参考连接 [Configuring Web Servers](http://www.yiiframework.com/doc-2.0/guide-start-installation.html#configuring-web-servers)
 
 
 ## 截图
