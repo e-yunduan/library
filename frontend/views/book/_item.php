@@ -4,6 +4,9 @@
  * createTime : 2017/8/16 14:26
  * description:
  */
+use common\models\Book;
+use yii\helpers\Html;
+
 /* @var $this yii\web\View */
 /* @var $model common\models\Book */
 ?>
@@ -14,6 +17,13 @@
             <div class="container">
                 <h4><b><?= $model->title ?></b></h4>
                 <p><?= $model->author ?></p>
+                <p>
+                    <?php if ($model->status == Book::STATUS_INACTIVE) {
+                        echo Html::tag('span', '可借阅', ['class' => 'label label-success']);
+                    } else {
+                        echo Html::tag('span', '已被借阅', ['class' => 'label label-warning']);
+                    } ?>
+                </p>
             </div>
         </a>
     </div>
