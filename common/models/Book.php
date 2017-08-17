@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%book}}".
@@ -55,6 +56,12 @@ class Book extends \yii\db\ActiveRecord
         ];
     }
 
+
+    public function behaviors()
+    {
+        return [TimestampBehavior::className()];
+    }
+
     /**
      * @inheritdoc
      */
@@ -83,5 +90,44 @@ class Book extends \yii\db\ActiveRecord
             self::STATUS_ACTIVE => '已被借阅',
             self::STATUS_INACTIVE => '借阅'
         ];
+    }
+
+    /**
+     * 获取可以被借出的书籍
+     * @param $id
+     * @return static
+     */
+    public static function getInactiveBook($id)
+    {
+        return self::findOne(['id' => $id, 'status' => self::STATUS_INACTIVE]);
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if (!$insert) {
+                $this->borrow_user_id = $this->status ? Yii::$app->user->id : 0;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if (!$insert && isset($changedAttributes['status']) && $this->status != $changedAttributes['status']) {
+            $this->status ? $this->updateCounters(['borrow_count' => 1]) : null;
+            $model = new UserMetadata();
+            $model->setAttributes([
+                'user_id' => Yii::$app->user->id,
+                'type' => $this->status ? UserMetadata::TYPE_BORROW : UserMetadata::TYPE_REPAY,
+                'book_id' => $this->id,
+                'created_at' => time()
+            ]);
+            $model->save();
+        }
     }
 }

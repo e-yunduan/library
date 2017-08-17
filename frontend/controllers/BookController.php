@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\UserMetadata;
 use Yii;
 use common\models\Book;
 use yii\data\ActiveDataProvider;
@@ -36,8 +37,12 @@ class BookController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $model->updateCounters(['view_count' => 1]);
+        $userMetadata = UserMetadata::find()->joinWith('user')->where(['book_id' => $id])->all();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'userMetadata' => $userMetadata,
         ]);
     }
 

@@ -46,26 +46,39 @@ class UserController extends Controller
     }
 
     /**
+     * @param $book_id
      * @return \yii\web\Response
      */
-    public function actionBorrow()
+    public function actionBorrow($book_id)
     {
-        /** @var Book $model */
-        // todo 待完成
-        $model = Yii::createObject(Book::className());
-        if ($model->load(Yii::$app->request->post())) {
+        $model = Book::getInactiveBook($book_id);
+        if (Yii::$app->request->isPost && $model) {
+            $model->setAttributes(['status' => Book::STATUS_ACTIVE]);
             if ($model->save()) {
-                $this->flash('设置成功');
+                $this->flash('借阅成功', 'success');
             } else {
-                $this->flash('设置失败', 'error');
+                $this->flash('借阅失败', 'error');
             }
-            return $this->refresh();
         }
+        return $this->redirect(['/book/view', 'id' => $book_id]);
     }
 
-    public function actionRepay()
+    /**
+     * @param $book_id
+     * @return \yii\web\Response
+     */
+    public function actionRepay($book_id)
     {
-
+        $model = Book::findOne(['id' => $book_id, 'status' => Book::STATUS_ACTIVE, 'borrow_user_id' => Yii::$app->user->id]);
+        if (Yii::$app->request->isPost && $model) {
+            $model->setAttributes(['status' => Book::STATUS_INACTIVE]);
+            if ($model->save()) {
+                $this->flash('还书成功', 'success');
+            } else {
+                $this->flash('还书失败', 'error');
+            }
+        }
+        return $this->redirect(['/book/view', 'id' => $book_id]);
     }
 
 }

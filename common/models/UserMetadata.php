@@ -12,9 +12,21 @@ use Yii;
  * @property integer $type
  * @property integer $book_id
  * @property integer $created_at
+ *
+ * @property User $user
  */
 class UserMetadata extends \yii\db\ActiveRecord
 {
+    /**
+     * @var string 借出
+     */
+    const TYPE_BORROW = 1;
+
+    /**
+     * @var string 还书
+     */
+    const TYPE_REPAY = 2;
+
     /**
      * @inheritdoc
      */
@@ -46,5 +58,18 @@ class UserMetadata extends \yii\db\ActiveRecord
             'book_id' => Yii::t('app', '书籍ID'),
             'created_at' => Yii::t('app', 'Created At'),
         ];
+    }
+
+    public static function getTypes()
+    {
+        return [
+            self::TYPE_REPAY => '还书',
+            self::TYPE_BORROW => '借阅'
+        ];
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

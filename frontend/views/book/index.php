@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-12">
             <?php Pjax::begin(); ?>
             <?= ListView::widget([
+                'summary' => false,
                 'dataProvider' => $dataProvider,
                 'itemOptions' => ['class' => 'item'],
                 'itemView' => '_item',
