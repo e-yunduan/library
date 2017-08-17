@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\traits\FindCountTrait;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -24,6 +25,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Book extends \yii\db\ActiveRecord
 {
+    use FindCountTrait;
+
     /**
      * @var string 已经被借出
      */

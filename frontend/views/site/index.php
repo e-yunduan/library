@@ -2,52 +2,91 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+use yii\helpers\Url;
+
+$this->title = Yii::$app->name;
 ?>
 <div class="site-index">
-
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+    <div id="carousel-myCarousel" data-ride="carousel" class="carousel slide">
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-myCarousel" data-slide-to="1"></li>
+        </ol>
+        <div role="listbox" class="carousel-inner">
+            <div class="item active"><img src="https://i.loli.net/2017/08/17/59953084e7c26.png"/>
+                <div class="carousel-caption">
+                    <h1>阅读，永远是对自己最好的投资</h1>
+                    <p>阅读最大的收益，来自于获得知识后，应用于自己的工作和生活，获得品质的改善和提升，油然而生无限的满足感。 ​​​​</p>
+                    <p>
+                        <a href="<?= Url::to(['/book/index']) ?>" role="button" class="btn btn-lg btn-primary">浏览书籍</a>
+                    </p>
+                </div>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+            <div class="item"><img src="https://i.loli.net/2017/08/17/5995308502da4.png"/>
+                <div class="carousel-caption">
+                    <h1>终生阅读</h1>
+                    <p>人丑就要多读书，阅读是很好的习惯，受益终生。</p>
+                    <a href="<?= Url::to(['/book/index']) ?>" role="button" class="btn btn-lg btn-primary">浏览书籍</a>
+                </div>
             </div>
         </div>
+        <a href="#carousel-myCarousel" role="button" data-slide="prev" class="left carousel-control">
+            <span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a href="#carousel-myCarousel" role="button" data-slide="next" class="right carousel-control">
+            <span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
 
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="hero-widget well well-sm">
+                <div class="icon">
+                    <i class="glyphicon glyphicon-user"></i>
+                </div>
+                <div class="text">
+                    <var><?= $count['allUser'] ?></var>
+                    <label class="text-muted">注册用户</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="hero-widget well well-sm">
+                <div class="icon">
+                    <i class="glyphicon glyphicon-book"></i>
+                </div>
+                <div class="text">
+                    <var><?= $count['allBook'] ?></var>
+                    <label class="text-muted">全部书籍</label>
+                </div>
+<!--                <div class="options">-->
+<!--                    <a href="javascript:;" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-eye-open"></i> View traffic</a>-->
+<!--                </div>-->
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="hero-widget well well-sm">
+                <div class="icon">
+                    <i class="glyphicon glyphicon-book"></i>
+                </div>
+                <div class="text">
+                    <var><?= $count['canBorrowBook'] ?></var>
+                    <label class="text-muted">可借书籍</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="hero-widget well well-sm">
+                <div class="icon">
+                    <i class="glyphicon glyphicon-stats"></i>
+                </div>
+                <div class="text">
+                    <var><?= $count['borrowTimes'] ?></var>
+                    <label class="text-muted">借阅次数</label>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
