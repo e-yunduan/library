@@ -46,6 +46,9 @@ $ php yii migrate
 
 ## 截图
 
+![详情页面](https://i.loli.net/2017/08/17/59955d24908cb.png)
+![首页](https://i.loli.net/2017/08/17/59955d2493420.png)
+![列表页面](https://i.loli.net/2017/08/17/59955d24a2422.png)
 
 
 ## TODO
