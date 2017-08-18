@@ -49,12 +49,12 @@ $ php yii migrate --migrationPath=@yiier/inviteCode/migrations/
 
 默认开启此功能，注册时必须输入注册码才能注册。
 
-如果想关闭此功能，修改 `common\config\params-local.php` 文件，添加如下代码：
+如果想关闭此功能，修改 `common\config\params-local.php` 文件，修改后的代码如下：
 
 ```php
 <?php
 return [
-    'enableInviteCode' => false, // 关闭邀请码注册
+    'enableInviteCode' => false, // 关闭注册码功能
 ];
 
 ```
