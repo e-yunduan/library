@@ -35,6 +35,7 @@ return [
 
 ```
 $ php yii migrate
+$ php yii migrate --migrationPath=@yiier/inviteCode/migrations/
 ```
 
 **关于后台登录问题**
@@ -43,6 +44,30 @@ $ php yii migrate
 
 然后就可以配置 nginx 信息了。参考连接 [Configuring Web Servers](http://www.yiiframework.com/doc-2.0/guide-start-installation.html#configuring-web-servers)
 
+
+**注册码功能说明**
+
+默认开启此功能，注册时必须输入注册码才能注册。
+
+如果想关闭此功能，修改 `common\config\params-local.php` 文件，添加如下代码：
+
+```php
+<?php
+return [
+    'enableInviteCode' => false, // 关闭邀请码注册
+];
+
+```
+
+如何生成注册码？
+
+先进入项目根目录，执行以下命令：
+
+```
+$ php yii gcode 100
+```
+
+查看数据库，然后就会在注册码表（`invite_code` ）看到100个注册码。
 
 ## 截图
 

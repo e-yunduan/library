@@ -5,12 +5,14 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use yiier\inviteCode\models\InviteCode;
 
 /**
  * Signup form
  */
 class SignupForm extends Model
 {
+    public $inviteCode;
     public $username;
     public $email;
     public $password;
@@ -34,6 +36,9 @@ class SignupForm extends Model
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => '此邮箱已经被注册'],
 
             ['password', 'string', 'min' => 6],
+
+            ['inviteCode', 'required', 'on' => 'inviteCode'],
+            ['inviteCode', 'yiier\inviteCode\CodeValidator', 'on' => 'inviteCode'],
         ];
     }
 
@@ -55,7 +60,11 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
 
-        return $user->save() ? $user : null;
+        if ($user->save()) {
+            params('enableInviteCode') ? InviteCode::useCode($this->inviteCode, $user->id) : null;
+            return $user;
+        }
+        return null;
     }
 
     /**
@@ -68,6 +77,7 @@ class SignupForm extends Model
             'password' => Yii::t('app', '密码'),
             'email' => Yii::t('app', '邮箱'),
             'real_name' => Yii::t('app', '真实姓名'),
+            'inviteCode' => Yii::t('app', '注册码'),
         ];
     }
 }

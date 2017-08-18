@@ -15,7 +15,10 @@ return [
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
-          ],
+        ],
+        'gcode' => [
+            'class' => 'yiier\inviteCode\GCodeController',
+        ],
     ],
     'components' => [
         'log' => [

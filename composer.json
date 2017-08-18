@@ -17,7 +17,8 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": "~2.0.6",
         "yiisoft/yii2-bootstrap": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0"
+        "yiisoft/yii2-swiftmailer": "~2.0.0",
+        "yiier/yii2-invite-code": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -35,5 +36,11 @@
                 "bower-asset-library": "vendor/bower"
             }
         }
+    },
+    "autoload": {
+        "psr-4": { "common\\": "common" },
+        "files": [
+            "common/components/GlobalFunctions.php"
+        ]
     }
 }

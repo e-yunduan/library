@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2099dd55ad0ea56853b9f025aa8e2928",
+    "content-hash": "0e6a1d6cdf9e8daf898ffd466dd7b020",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -367,6 +367,47 @@
                 "mailer"
             ],
             "time": "2017-05-01T15:54:03+00:00"
+        },
+        {
+            "name": "yiier/yii2-invite-code",
+            "version": "v1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiier/yii2-invite-code.git",
+                "reference": "fd4984b7aed8d9fc9be5929779fe8e052d983b45"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiier/yii2-invite-code/zipball/fd4984b7aed8d9fc9be5929779fe8e052d983b45",
+                "reference": "fd4984b7aed8d9fc9be5929779fe8e052d983b45",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "yiier\\inviteCode\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "forecho",
+                    "email": "caizhenghai@gmail.com"
+                }
+            ],
+            "description": "invite code for Yii2",
+            "keywords": [
+                "extension",
+                "invite code",
+                "yii2"
+            ],
+            "time": "2016-12-11T00:15:03+00:00"
         },
         {
             "name": "yiisoft/yii2",

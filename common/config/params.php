@@ -3,4 +3,5 @@ return [
     'adminEmail' => 'admin@example.com',
     'supportEmail' => 'support@example.com',
     'user.passwordResetTokenExpire' => 3600,
+    'enableInviteCode' => true, // 启用邀请码注册
 ];
