@@ -33,22 +33,28 @@ $data = \yii\helpers\Json::decode($model->data);
                         <li><b>ISBN：</b><?= $model->isbn ?></li>
                     </ul>
                     <div class="book-view-action">
-                        <?php if ($model->status == Book::STATUS_ACTIVE) {
-                            if (Yii::$app->user->id == $model->borrow_user_id) {
-                                echo Html::a('还书', ['/user/repay', 'book_id' => $model->id], [
+                        <?php switch ($model->status) {
+                            case Book::STATUS_ACTIVE:
+                                if (Yii::$app->user->id == $model->borrow_user_id) {
+                                    echo Html::a('还书', ['/user/repay', 'book_id' => $model->id], [
+                                        'data-method' => 'post',
+                                        'data-confirm' => '确定要还书吗？',
+                                        'class' => 'btn btn-info'
+                                    ]);
+                                } else {
+                                    echo Html::tag('span', '已借出', ['class' => 'btn btn-warning']);
+                                }
+                                break;
+                            case Book::STATUS_OFF:
+                                echo Html::tag('span', '已下架', ['class' => 'btn btn-default']);
+                                break;
+                            default:
+                                echo Html::a('借阅', ['/user/borrow', 'book_id' => $model->id], [
                                     'data-method' => 'post',
-                                    'data-confirm' => '确定要还书吗？',
-                                    'class' => 'btn btn-default'
+                                    'data-confirm' => '确定要借阅吗？',
+                                    'class' => 'btn btn-success'
                                 ]);
-                            } else {
-                                echo Html::tag('span', '已借出', ['class' => 'btn btn-warning']);
-                            }
-                        } else {
-                            echo Html::a('借阅', ['/user/borrow', 'book_id' => $model->id], [
-                                'data-method' => 'post',
-                                'data-confirm' => '确定要借阅吗？',
-                                'class' => 'btn btn-success'
-                            ]);
+                                break;
                         } ?>
                     </div>
                 </div>

@@ -21,10 +21,18 @@ use yii\helpers\Html;
                 <p><b title="<?= $model->title ?>"><?= $model->title ?></b></p>
                 <p class="author" title="<?= $model->author ?>"><?= $model->author ?></p>
                 <p>
-                    <?php if ($model->status == Book::STATUS_INACTIVE) {
-                        echo Html::tag('span', '可借阅', ['class' => 'label label-success']);
-                    } else {
-                        echo Html::tag('span', '已被借阅', ['class' => 'label label-warning']);
+                    <?php switch ($model->status) {
+                        case Book::STATUS_INACTIVE:
+                            echo Html::tag('span', '可借阅', ['class' => 'label label-success']);
+                            break;
+                        case Book::STATUS_ACTIVE:
+                            echo Html::tag('span', '已被借阅', ['class' => 'label label-warning']);
+                            break;
+                        case Book::STATUS_OFF:
+                            echo Html::tag('span', '已下架', ['class' => 'label label-default']);
+                            break;
+                        default:
+                            break;
                     } ?>
                 </p>
             </div>

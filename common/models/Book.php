@@ -28,14 +28,19 @@ class Book extends \yii\db\ActiveRecord
     use FindCountTrait;
 
     /**
-     * @var string 已经被借出
+     * @var integer 已经被借出
      */
     const STATUS_ACTIVE = 1;
 
     /**
-     * @var string 可以借
+     * @var integer 可以借
      */
     const STATUS_INACTIVE = 0;
+
+    /**
+     *  @var integer 被下架
+     */
+    const STATUS_OFF = 2;
 
     /**
      * @inheritdoc
@@ -82,7 +87,7 @@ class Book extends \yii\db\ActiveRecord
             'data' => Yii::t('app', 'api json 数据'),
             'view_count' => Yii::t('app', '浏览次数'),
             'borrow_count' => Yii::t('app', '借阅次数'),
-            'status' => Yii::t('app', '状态：0无人借阅 1已经被借阅'),
+            'status' => Yii::t('app', '状态'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
@@ -92,7 +97,8 @@ class Book extends \yii\db\ActiveRecord
     {
         return [
             self::STATUS_ACTIVE => '已被借阅',
-            self::STATUS_INACTIVE => '借阅'
+            self::STATUS_INACTIVE => '借阅',
+            self::STATUS_OFF => '被下架',
         ];
     }
 
