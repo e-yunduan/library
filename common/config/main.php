@@ -1,6 +1,6 @@
 <?php
 return [
-    'name' => '云端私募会图书管理系统',
+    'name' => '云端私募会图书馆',
     'language' => 'zh-CN',
     'timeZone' => 'Asia/Shanghai',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',

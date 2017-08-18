@@ -22,6 +22,8 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ *
+ * @property User $ownUser
  */
 class Book extends \yii\db\ActiveRecord
 {
@@ -91,6 +93,13 @@ class Book extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
+    }
+
+
+
+    public function getOwnUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'own_user_id']);
     }
 
     public static function getStatuses()

@@ -31,7 +31,10 @@ $data = \yii\helpers\Json::decode($model->data);
                         <li><b>出版社：</b><?= ArrayHelper::getValue($data, 'publisher') ?></li>
                         <li><b>出版时间：</b><?= ArrayHelper::getValue($data, 'pubdate') ?></li>
                         <li><b>ISBN：</b><?= $model->isbn ?></li>
+                        <li></li>
+                        <li><small>本书归属于：<?= $model->ownUser ? $model->ownUser['real_name'] : '公司' ?></small></li>
                     </ul>
+
                     <div class="book-view-action">
                         <?php switch ($model->status) {
                             case Book::STATUS_ACTIVE:
