@@ -35,6 +35,9 @@ $data = \yii\helpers\Json::decode($model->data);
                         <li>
                             <small>本书归属于：<?= $model->ownUser ? $model->ownUser['real_name'] : '公司' ?></small>
                         </li>
+                        <li>
+                            <small>首次上架时间：<?= Yii::$app->formatter->asDatetime($model->created_at) ?></small>
+                        </li>
                     </ul>
 
                     <div class="book-view-action">
