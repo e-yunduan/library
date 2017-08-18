@@ -7,6 +7,8 @@ use common\models\Book;
 use common\traits\FlashTrait;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -17,6 +19,21 @@ class BookController extends Controller
 {
 
     use FlashTrait;
+
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(), [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    // 默认只能 GET 方式访问
+                    ['allow' => true, 'actions' => ['index', 'view'], 'verbs' => ['GET']],
+                    // 登录用户才能操作
+                    ['allow' => true, 'actions' => ['create'], 'roles' => ['@']],
+                ]
+            ],
+        ]);
+    }
 
     /**
      * Lists all Book models.
