@@ -4,6 +4,8 @@ namespace frontend\controllers;
 
 use common\models\UserMetadata;
 use common\models\Book;
+use common\traits\FlashTrait;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -13,6 +15,8 @@ use yii\web\NotFoundHttpException;
  */
 class BookController extends Controller
 {
+
+    use FlashTrait;
 
     /**
      * Lists all Book models.
@@ -30,6 +34,22 @@ class BookController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionCreate()
+    {
+        $model = new Book();
+        $model->own_user_id = Yii::$app->user->id;
+        if ($model->load(Yii::$app->request->post())) {
+            if (!$model->save()) {
+                $this->flash('共享失败', 'error', ['view', 'id' => $model->id]);
+            }
+            $this->flash('共享成功', 'success', ['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**

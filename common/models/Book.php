@@ -2,9 +2,11 @@
 
 namespace common\models;
 
+use common\components\BookDataProvider;
 use common\traits\FindCountTrait;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%book}}".
@@ -40,7 +42,7 @@ class Book extends \yii\db\ActiveRecord
     const STATUS_INACTIVE = 0;
 
     /**
-     *  @var integer 被下架
+     * @var integer 被下架
      */
     const STATUS_OFF = 2;
 
@@ -58,7 +60,7 @@ class Book extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'author', 'image', 'isbn'], 'required'],
+            [['isbn'], 'required'],
             [['own_user_id', 'borrow_user_id', 'view_count', 'borrow_count', 'status', 'created_at', 'updated_at'], 'integer'],
             [['data'], 'string'],
             [['title', 'author', 'image'], 'string', 'max' => 255],
@@ -96,7 +98,6 @@ class Book extends \yii\db\ActiveRecord
     }
 
 
-
     public function getOwnUser()
     {
         return $this->hasOne(User::className(), ['id' => 'own_user_id']);
@@ -124,6 +125,13 @@ class Book extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
+            /** @var BookDataProvider $bookDataProvider */
+            $bookDataProvider = Yii::createObject(BookDataProvider::className());
+            $bookData = $bookDataProvider->getBookData($this->isbn);
+            $this->title = $bookData['title'];
+            $this->author = $bookData['author'][0];
+            $this->image = str_replace('mpic', 'lpic', $bookData['image']);
+            $this->data = Json::encode($bookData);
             if (!$insert) {
                 $this->borrow_user_id = $this->status ? Yii::$app->user->id : 0;
             }

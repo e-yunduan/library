@@ -32,11 +32,28 @@ $data = \yii\helpers\Json::decode($model->data);
                         <li><b>出版时间：</b><?= ArrayHelper::getValue($data, 'pubdate') ?></li>
                         <li><b>ISBN：</b><?= $model->isbn ?></li>
                         <li></li>
-                        <li><small>本书归属于：<?= $model->ownUser ? $model->ownUser['real_name'] : '公司' ?></small></li>
+                        <li>
+                            <small>本书归属于：<?= $model->ownUser ? $model->ownUser['real_name'] : '公司' ?></small>
+                        </li>
                     </ul>
 
                     <div class="book-view-action">
                         <?php switch ($model->status) {
+                            case Book::STATUS_INACTIVE:
+                                echo Html::a('借阅', ['/user/borrow', 'book_id' => $model->id], [
+                                    'data-method' => 'post',
+                                    'data-confirm' => '确定要借阅吗？',
+                                    'class' => 'btn btn-success'
+                                ]);
+
+                                if (Yii::$app->user->id == $model->own_user_id) {
+                                    echo Html::a('回收', ['/user/retrieve', 'book_id' => $model->id], [
+                                        'data-method' => 'post',
+                                        'data-confirm' => '确定要回收吗？',
+                                        'class' => 'btn btn-info ml10'
+                                    ]);
+                                }
+                                break;
                             case Book::STATUS_ACTIVE:
                                 if (Yii::$app->user->id == $model->borrow_user_id) {
                                     echo Html::a('还书', ['/user/repay', 'book_id' => $model->id], [
@@ -50,13 +67,15 @@ $data = \yii\helpers\Json::decode($model->data);
                                 break;
                             case Book::STATUS_OFF:
                                 echo Html::tag('span', '已下架', ['class' => 'btn btn-default']);
+                                if (Yii::$app->user->id == $model->own_user_id) {
+                                    echo Html::a('重新上架', ['/user/put', 'book_id' => $model->id], [
+                                        'data-method' => 'post',
+                                        'data-confirm' => '确定要重新上架吗？',
+                                        'class' => 'btn btn-info ml10'
+                                    ]);
+                                }
                                 break;
                             default:
-                                echo Html::a('借阅', ['/user/borrow', 'book_id' => $model->id], [
-                                    'data-method' => 'post',
-                                    'data-confirm' => '确定要借阅吗？',
-                                    'class' => 'btn btn-success'
-                                ]);
                                 break;
                         } ?>
                     </div>

@@ -3,6 +3,14 @@ body {
     height: 100%;
 }
 
+.ml10 {
+    margin-left: 10px;
+}
+
+.ml15 {
+    margin-left: 15px;
+}
+
 .wrap {
     min-height: 100%;
     height: auto;

@@ -34,7 +34,7 @@ $this->title = Yii::$app->name;
                 <div class="carousel-caption">
                     <h1>与其用来垫显示器，不如让更多人收益</h1>
                     <p>共享图书给大家借阅。共享后的书籍依然<b class="text-danger">归属于您</b>，您可以随时收回。</p>
-                    <a href="<?= Url::to(['/book/index']) ?>" role="button" class="btn btn-lg btn-primary">共享书籍</a>
+                    <a href="<?= Url::to(['/book/create']) ?>" role="button" class="btn btn-lg btn-primary">共享书籍</a>
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
@@ -12,6 +13,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="book-index">
     <div class="row">
         <div class="col-md-12">
+            <p>
+                <?= Html::a('共享图书', ['create'], ['class' => 'btn btn-success ml15']) ?>
+            </p>
             <?php Pjax::begin(); ?>
             <?= ListView::widget([
                 'summary' => false,

@@ -18,7 +18,7 @@ $users = \common\models\User::find()->all();
 
     <?= $form->field($model, 'own_user_id')->dropDownList([0 => '公司'] + ArrayHelper::map($users, 'id', 'real_name')) ?>
 
-    <?= $form->field($model, 'isbn')->textInput(['maxlength' => true, 'disabled' => (Boolean)$model->isbn]) ?>
+    <?= $form->field($model, 'isbn')->textInput(['maxlength' => true, 'disabled' => !$model->isNewRecord]) ?>
 
     <?= $form->field($model, 'status')->dropDownList([Book::STATUS_INACTIVE => '上架', Book::STATUS_OFF => '下架']) ?>
 

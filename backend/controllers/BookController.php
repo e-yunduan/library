@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\components\BookDataProvider;
+use common\traits\FlashTrait;
 use Yii;
 use common\models\Book;
 use yii\data\ActiveDataProvider;
@@ -17,6 +18,8 @@ use yii\filters\VerbFilter;
  */
 class BookController extends Controller
 {
+    use FlashTrait;
+
     /**
      * @inheritdoc
      */
@@ -70,26 +73,10 @@ class BookController extends Controller
         $model = new Book();
         $model->own_user_id = 0;
         if ($model->load(Yii::$app->request->post())) {
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                /** @var BookDataProvider $bookDataProvider */
-                $bookDataProvider = Yii::createObject(BookDataProvider::className());
-                $bookData = $bookDataProvider->getBookData($model->isbn);
-                $model->setAttributes([
-                    'title' => $bookData['title'],
-                    'author' => $bookData['author'][0],
-                    'image' => str_replace('mpic', 'lpic', $bookData['image']),
-                    'data' => Json::encode($bookData),
-                ]);
-                if (!$model->save()) {
-                    throw new  Exception('保存失败');
-                }
-                $transaction->commit();
-            } catch (\Exception $e) {
-                $transaction->rollBack();
-                throw $e;
+            if (!$model->save()) {
+                $this->flash('保存失败', 'error', ['view', 'id' => $model->id]);
             }
-            return $this->redirect(['view', 'id' => $model->id]);
+            $this->flash('保存成功', 'success', ['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
