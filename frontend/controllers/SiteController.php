@@ -7,6 +7,7 @@ use common\models\User;
 use common\models\UserMetadata;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -103,6 +104,17 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionNow()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => UserMetadata::find()->joinWith(['user', 'book'])->orderBy(['created_at' => SORT_DESC]),
+        ]);
+
+        return $this->render('now', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**

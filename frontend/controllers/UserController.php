@@ -9,11 +9,15 @@ namespace frontend\controllers;
 
 
 use common\models\Book;
+use common\models\User;
+use common\models\UserMetadata;
 use common\traits\FlashTrait;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use Yii;
+use yii\web\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -42,6 +46,59 @@ class UserController extends Controller
                     ['allow' => true, 'actions' => ['profile', 'show'], 'roles' => ['@']],
                 ]
             ],
+        ]);
+    }
+
+    public function actionIndex()
+    {
+        return $this->redirect(['show',
+            'username' => \Yii::$app->user->identity->username,
+            'type' => UserMetadata::TYPE_BORROW
+        ]);
+    }
+
+
+    /**
+     * @param string $username
+     * @param $type integer
+     * @return string
+     */
+    public function actionShow($username, $type)
+    {
+        $user = $this->user($username);
+
+        return $this->render('show', [
+            'user' => $user,
+            'dataProvider' => $this->getList($username, $type),
+        ]);
+    }
+
+
+    /**
+     * @param $username string
+     * @param $type integer
+     * @return ActiveDataProvider
+     * @throws NotFoundHttpException
+     */
+    protected function getList($username, $type)
+    {
+        if (!in_array($type, array_keys(UserMetadata::getTypes()))) {
+            throw new NotFoundHttpException;
+        }
+
+        return new ActiveDataProvider([
+            'query' => UserMetadata::find()->where([
+                'type' => $type,
+                UserMetadata::tableName() . '.user_id' => $this->user($username)->id
+            ])->joinWith('book')->groupBy('book_id'),
+            'pagination' => [
+                'pageSize' => 24,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                ]
+            ]
         ]);
     }
 
@@ -109,5 +166,15 @@ class UserController extends Controller
             }
         }
         $this->flash('上架失败', 'error', $url);
+    }
+
+    protected function user($username = '')
+    {
+        $user = User::findOne(['username' => $username]);
+
+        if ($user === null) {
+            throw new NotFoundHttpException;
+        }
+        return $user;
     }
 }

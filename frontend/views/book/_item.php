@@ -9,6 +9,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Book */
+$model = isset($model->book) ? $model->book : $model;
 ?>
 <div class="col-sm-12 col-md-2 book-item">
     <div class="card">

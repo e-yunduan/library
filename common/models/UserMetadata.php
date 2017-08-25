@@ -14,18 +14,23 @@ use Yii;
  * @property integer $created_at
  *
  * @property User $user
+ * @property Book $book
  */
 class UserMetadata extends \yii\db\ActiveRecord
 {
     /**
-     * @var string 借出
+     * @var integer 借出
      */
     const TYPE_BORROW = 1;
 
     /**
-     * @var string 还书
+     * @var integer 还书
      */
     const TYPE_REPAY = 2;
+    /**
+     * @var integer 共享
+     */
+    const TYPE_SHARE = 3;
 
     /**
      * @inheritdoc
@@ -64,12 +69,19 @@ class UserMetadata extends \yii\db\ActiveRecord
     {
         return [
             self::TYPE_REPAY => '还书',
-            self::TYPE_BORROW => '借阅'
+            self::TYPE_BORROW => '借阅',
+            self::TYPE_SHARE => '共享',
         ];
     }
 
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+
+    public function getBook()
+    {
+        return $this->hasOne(Book::className(), ['id' => 'book_id']);
     }
 }

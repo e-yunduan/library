@@ -247,3 +247,8 @@ a.desc:after {
 .hero-widget .options {
     margin-top: 10px;
 }
+
+.pagination {
+    float: right;
+    clear: left;
+}

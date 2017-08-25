@@ -16,7 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <p>
                 <?= Html::a('共享图书', ['create'], ['class' => 'btn btn-success ml15']) ?>
             </p>
-            <?php Pjax::begin(); ?>
+            <?php Pjax::begin([
+                'scrollTo' => 0,
+                'formSelector' => false,
+                'linkSelector' => '.pagination a'
+            ]); ?>
             <?= ListView::widget([
                 'summary' => false,
                 'dataProvider' => $dataProvider,

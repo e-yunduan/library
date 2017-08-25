@@ -42,7 +42,10 @@ class BookController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Book::find(),
+            'query' => Book::find()->filterWhere(['or',
+                ['like', 'title', request('keyword')],
+                ['like', 'author', request('keyword')]
+            ]),
             'pagination' => [
                 'pageSize' => 24,
             ],
