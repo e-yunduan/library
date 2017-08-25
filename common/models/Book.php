@@ -151,7 +151,7 @@ class Book extends \yii\db\ActiveRecord
         }
         if ($this->own_user_id) {
             UserMetadata::deleteAll(['book_id' => $this->id, 'type' => UserMetadata::TYPE_SHARE]);
-            $this->createUserMetadata(['own_user_id' => $this->own_user_id, 'type' => UserMetadata::TYPE_SHARE]);
+            $this->createUserMetadata(['created_at' => $this->created_at, 'own_user_id' => $this->own_user_id, 'type' => UserMetadata::TYPE_SHARE]);
         }
     }
 
