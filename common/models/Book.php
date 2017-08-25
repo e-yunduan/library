@@ -147,14 +147,23 @@ class Book extends \yii\db\ActiveRecord
         parent::afterSave($insert, $changedAttributes);
         if (!$insert && isset($changedAttributes['status']) && $this->status != $changedAttributes['status']) {
             $this->status ? $this->updateCounters(['borrow_count' => 1]) : null;
-            $model = new UserMetadata();
-            $model->setAttributes([
+            $this->createUserMetadata();
+        }
+        if ($this->own_user_id) {
+            UserMetadata::deleteAll(['book_id' => $this->id, 'type' => UserMetadata::TYPE_SHARE]);
+            $this->createUserMetadata(['type' => UserMetadata::TYPE_SHARE]);
+        }
+    }
+
+    protected function createUserMetadata($params = [])
+    {
+        $model = new UserMetadata();
+        $model->setAttributes($params + [
                 'user_id' => Yii::$app->user->id,
                 'type' => $this->status ? UserMetadata::TYPE_BORROW : UserMetadata::TYPE_REPAY,
                 'book_id' => $this->id,
                 'created_at' => time()
             ]);
-            $model->save();
-        }
+        $model->save();
     }
 }

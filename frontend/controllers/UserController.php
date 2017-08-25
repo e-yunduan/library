@@ -90,7 +90,7 @@ class UserController extends Controller
             'query' => UserMetadata::find()->where([
                 'type' => $type,
                 UserMetadata::tableName() . '.user_id' => $this->user($username)->id
-            ])->joinWith('book')->groupBy(UserMetadata::tableName() . '.book_id'),
+            ])->joinWith('book')->groupBy( 'book_id'),
             'pagination' => [
                 'pageSize' => 24,
             ],
