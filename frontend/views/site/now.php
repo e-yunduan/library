@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'summary' => false,
         'itemOptions' => ['class' => 'list-group-item item'],
         'itemView' => function ($model, $key, $index, $widget) {
-            $str = Html::a($model->user->username, ['/user/show', 'username' => $model->user->username]);
+            $str = Html::a($model->user->username, ['/user/show', 'username' => $model->user->username, 'type' => \common\models\UserMetadata::TYPE_BORROW]);
             $str .= ' ' . \common\models\UserMetadata::getTypes()[$model->type];
             $str .= Html::a(" 《{$model->book->title}》", ['/book/view', 'id' => $model->book_id]);
             $str .= Html::tag('small', ' ' . Setup::relative($model->created_at));
