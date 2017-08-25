@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models;
 
 use Yii;
@@ -86,7 +87,7 @@ class LoginForm extends Model
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = strpos($this->username, '@') === false ? User::findByUsername($this->username) : User::findByEmail($this->username);
         }
 
         return $this->_user;
@@ -98,7 +99,7 @@ class LoginForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => Yii::t('app', '用户名'),
+            'username' => Yii::t('app', '用户名/邮箱'),
             'password' => Yii::t('app', '密码'),
             'rememberMe' => Yii::t('app', '记住我'),
         ];

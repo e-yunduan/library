@@ -35,23 +35,33 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => '首页', 'url' => ['/site/index']],
-        ['label' => '书籍', 'url' => ['/book/index']],
-        ['label' => '关于我们', 'url' => ['/site/about']],
-    ];
+    echo Nav::widget([
+        'options' => ['class' => 'nav navbar-nav '],
+        'items' => [
+            ['label' => '首页', 'url' => ['/site/index']],
+            ['label' => '书籍', 'url' => ['/book/index']],
+            ['label' => '此刻', 'url' => ['/site/now']],
+        ],
+        'encodeLabels' => false
+    ]);
+    echo '<form class="navbar-form navbar-left" role="search" action="/book/index" method="get">
+                <div class="form-group">
+                    <input type="text" value="' . request('keyword') . '" name="keyword" class="form-control search_input" id="navbar-search" placeholder="搜索..." data-placement="bottom" data-content="请输入要搜索的关键词！">
+                </div>
+            </form>';
+
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => '注册', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => '登录', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                '退出 (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+        $menuItems[] = [
+            'label' => Yii::$app->user->identity->username,
+            'items' => [
+                ['label' => '我的主页', 'url' => ['/user/default']],
+                ['label' => '帐号设置', 'url' => ['/user/setting/profile']],
+                ['label' => '退出', 'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']]
+            ]
+        ];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
