@@ -7,14 +7,12 @@
 
 namespace common\components;
 
-use common\helpers\Setup;
+use common\models\User;
 use frontend\models\PasswordResetRequestForm;
 use Yii;
-use common\models\User;
-use yii\base\Object;
-use yii\helpers\Console;
+use yii\base\BaseObject;
 
-class Mailer extends Object
+class Mailer extends BaseObject
 {
     /**
      * @var string|array Default: `Yii::$app->params['adminEmail']` OR `no-reply@xxx.com

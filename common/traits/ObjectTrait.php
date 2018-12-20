@@ -1,4 +1,5 @@
 <?php
+
 namespace common\traits;
 
 use Yii;
@@ -6,7 +7,7 @@ use Yii;
 /**
  * Class ObjectTrait
  *
- * @see \yii\base\Object
+ * @see \yii\base\BaseObject
  */
 trait ObjectTrait
 {

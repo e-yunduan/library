@@ -16,7 +16,7 @@ $ composer install
 $ php init
 ```
 
-*关于 Composer 使用请参考[官网文档](https://getcomposer.org/)
+**关于 Composer 使用请参考[官网文档](https://getcomposer.org/)**
 
 手动新建一个数据库，然后修改 `common\config\main-local.php` 文件内容，修改数据库配置。
 还可以添加 `name` 替换系统默认值，代码示例如下：

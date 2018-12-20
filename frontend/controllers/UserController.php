@@ -12,11 +12,11 @@ use common\models\Book;
 use common\models\User;
 use common\models\UserMetadata;
 use common\traits\FlashTrait;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
-use Yii;
 use yii\web\NotFoundHttpException;
 
 class UserController extends Controller
@@ -41,7 +41,12 @@ class UserController extends Controller
                     // 默认只能 GET 方式访问
                     ['allow' => true, 'actions' => ['index'], 'verbs' => ['GET']],
                     // 登录用户 POST 操作
-                    ['allow' => true, 'actions' => ['borrow', 'repay', 'retrieve', 'put'], 'verbs' => ['POST'], 'roles' => ['@']],
+                    [
+                        'allow' => true,
+                        'actions' => ['borrow', 'repay', 'retrieve', 'put'],
+                        'verbs' => ['POST'],
+                        'roles' => ['@']
+                    ],
                     // 登录用户才能操作
                     ['allow' => true, 'actions' => ['profile', 'show'], 'roles' => ['@']],
                 ]
@@ -51,7 +56,8 @@ class UserController extends Controller
 
     public function actionIndex()
     {
-        return $this->redirect(['show',
+        return $this->redirect([
+            'show',
             'username' => \Yii::$app->user->identity->username,
             'type' => UserMetadata::TYPE_BORROW
         ]);
@@ -62,6 +68,7 @@ class UserController extends Controller
      * @param string $username
      * @param $type integer
      * @return string
+     * @throws NotFoundHttpException
      */
     public function actionShow($username, $type)
     {
@@ -90,7 +97,7 @@ class UserController extends Controller
             'query' => UserMetadata::find()->where([
                 'type' => $type,
                 UserMetadata::tableName() . '.user_id' => $this->user($username)->id
-            ])->joinWith('book')->groupBy( 'book_id'),
+            ])->joinWith('book')->groupBy('book_id'),
             'pagination' => [
                 'pageSize' => 24,
             ],
@@ -123,7 +130,11 @@ class UserController extends Controller
      */
     public function actionRepay($book_id)
     {
-        $model = Book::findOne(['id' => $book_id, 'status' => Book::STATUS_ACTIVE, 'borrow_user_id' => Yii::$app->user->id]);
+        $model = Book::find()->where([
+            'id' => $book_id,
+            'status' => Book::STATUS_ACTIVE,
+            'borrow_user_id' => Yii::$app->user->id
+        ])->one();
         $url = ['/book/view', 'id' => $book_id];
         if (Yii::$app->request->isPost && $model) {
             $model->setAttributes(['status' => Book::STATUS_INACTIVE]);
@@ -139,7 +150,11 @@ class UserController extends Controller
      */
     public function actionRetrieve($book_id)
     {
-        $model = Book::findOne(['id' => $book_id, 'status' => Book::STATUS_INACTIVE, 'own_user_id' => Yii::$app->user->id]);
+        $model = Book::find()->where([
+            'id' => $book_id,
+            'status' => Book::STATUS_INACTIVE,
+            'own_user_id' => Yii::$app->user->id
+        ])->one();
         $url = ['/book/view', 'id' => $book_id];
         if (Yii::$app->request->isPost && $model) {
             $model->setAttributes(['status' => Book::STATUS_OFF]);
@@ -157,7 +172,11 @@ class UserController extends Controller
      */
     public function actionPut($book_id)
     {
-        $model = Book::findOne(['id' => $book_id, 'status' => Book::STATUS_OFF, 'own_user_id' => Yii::$app->user->id]);
+        $model = Book::find()->where([
+            'id' => $book_id,
+            'status' => Book::STATUS_OFF,
+            'own_user_id' => Yii::$app->user->id
+        ])->one();
         $url = ['/book/view', 'id' => $book_id];
         if (Yii::$app->request->isPost && $model) {
             $model->setAttributes(['status' => Book::STATUS_INACTIVE]);
@@ -170,7 +189,7 @@ class UserController extends Controller
 
     protected function user($username = '')
     {
-        $user = User::findOne(['username' => $username]);
+        $user = User::find()->where(['username' => $username])->one();
 
         if ($user === null) {
             throw new NotFoundHttpException;

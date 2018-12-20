@@ -10,10 +10,10 @@ namespace common\components;
 
 
 use common\traits\CollectionTrait;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\helpers\Json;
 
-class BookDataProvider extends Object
+class BookDataProvider extends BaseObject
 {
     use  CollectionTrait;
 
